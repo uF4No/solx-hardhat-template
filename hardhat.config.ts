@@ -3,7 +3,6 @@ import "@nomicfoundation/hardhat-toolbox";
 
 // custom compiler subtask from https://hardhat.org/hardhat-runner/docs/other-guides/using-custom-solc
 
-
 const SOLX_BINARY_FILENAME = "solx-macosx-v0.1.0-alpha.3"; // filename of the solx compiler binary
 
 const {
@@ -50,8 +49,6 @@ const config: HardhatUserConfig = {
   gasReporter: {
     enabled: true,
     showMethodSig: true,              // Adds method signatures next to names
-    excludeContracts: ["Migrations"], // Hide boilerplate/test contracts
-    noColors: false,                  // Use terminal colors (default: false)
     outputFile: process.env.SOLX_ENABLED ? `solx-gas-report.txt` : `solc-gas-report.txt`     // Optionally write to file for CI/docs
   }
 };
