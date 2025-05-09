@@ -3,7 +3,8 @@ import "@nomicfoundation/hardhat-toolbox";
 
 // custom compiler subtask from https://hardhat.org/hardhat-runner/docs/other-guides/using-custom-solc
 
-const SOLX_BINARY_FILENAME = "solx"; // filename of the solx compiler binary
+
+const SOLX_BINARY_FILENAME = "solx-macosx-v0.1.0-alpha.3"; // filename of the solx compiler binary
 
 const {
   TASK_COMPILE_SOLIDITY_GET_SOLC_BUILD,
@@ -19,7 +20,7 @@ subtask(
     hre,
     runSuper
   ) => {
-    if (args.solcVersion === "0.8.29") {
+    if (process.env.SOLX_ENABLED) {
       console.log(`👾👾 Compiling with solx compiler 👾👾`);
       const compilerPath = path.join(
         __dirname,
@@ -46,6 +47,13 @@ const config: HardhatUserConfig = {
   solidity:{
     version: "0.8.29",
   },
+  gasReporter: {
+    enabled: true,
+    showMethodSig: true,              // Adds method signatures next to names
+    excludeContracts: ["Migrations"], // Hide boilerplate/test contracts
+    noColors: false,                  // Use terminal colors (default: false)
+    outputFile: process.env.SOLX_ENABLED ? `solx-gas-report.txt` : `solc-gas-report.txt`     // Optionally write to file for CI/docs
+  }
 };
 
 export default config;
